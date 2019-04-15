@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge
+package com.baruckis.techchallenge.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import androidx.lifecycle.ViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainViewModel : ViewModel() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
 }
