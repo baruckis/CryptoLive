@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.di
 
 import androidx.lifecycle.ViewModel
-import com.baruckis.techchallenge.repository.SummaryRepository
-import javax.inject.Inject
+import dagger.MapKey
+import kotlin.reflect.KClass
 
-
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository) : ViewModel() {
-
-    fun subscribe() {
-
-        summaryRepository.sendSubscribe()
-    }
-
-}
+@MustBeDocumented
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
+@Retention(AnnotationRetention.RUNTIME)
+@MapKey
+annotation class ViewModelKey(val value: KClass<out ViewModel>)

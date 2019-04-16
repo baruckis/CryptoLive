@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge
 
-import androidx.lifecycle.ViewModel
-import com.baruckis.techchallenge.repository.SummaryRepository
+import android.app.Activity
+import android.app.Application
+import com.baruckis.techchallenge.di.AppInjector
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
+class App : Application(), HasActivityInjector {
 
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository) : ViewModel() {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    fun subscribe() {
+    override fun onCreate() {
+        super.onCreate()
 
-        summaryRepository.sendSubscribe()
+        AppInjector.init(this)
     }
+
+    override fun activityInjector(): AndroidInjector<Activity> = dispatchingAndroidInjector
 
 }

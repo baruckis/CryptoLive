@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.di
 
-import androidx.lifecycle.ViewModel
-import com.baruckis.techchallenge.repository.SummaryRepository
-import javax.inject.Inject
+import com.baruckis.techchallenge.ui.main.MainActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
+@Module
+abstract class ActivityBuildersModule {
 
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository) : ViewModel() {
-
-    fun subscribe() {
-
-        summaryRepository.sendSubscribe()
-    }
+    @ContributesAndroidInjector(modules = [MainFragmentBuildersModule::class])
+    abstract fun contributeMainActivity(): MainActivity
 
 }

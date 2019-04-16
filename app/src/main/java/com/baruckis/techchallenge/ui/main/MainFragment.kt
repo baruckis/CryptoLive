@@ -18,18 +18,26 @@ package com.baruckis.techchallenge.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import com.baruckis.techchallenge.databinding.FragmentMainBinding
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.baruckis.techchallenge.R
+import com.baruckis.techchallenge.databinding.FragmentMainBinding
+import com.baruckis.techchallenge.di.Injectable
 import kotlinx.android.synthetic.main.fragment_main.*
+import javax.inject.Inject
 
-class MainFragment : Fragment() {
+
+class MainFragment : Fragment(), Injectable {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     lateinit var binding: FragmentMainBinding
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -44,7 +52,7 @@ class MainFragment : Fragment() {
 
         activity?.let {
 
-            val viewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+            val viewModel = ViewModelProviders.of(it, viewModelFactory).get(MainViewModel::class.java)
 
             my_button.setOnClickListener {
 
@@ -53,6 +61,5 @@ class MainFragment : Fragment() {
         }
 
     }
-
 
 }

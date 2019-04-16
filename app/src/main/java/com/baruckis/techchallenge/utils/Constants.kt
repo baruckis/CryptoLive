@@ -17,3 +17,5 @@
 package com.baruckis.techchallenge.utils
 
 const val LOG_TAG = "tech_challenge"
+const val BITFINEX_WEB_SOCKET_URL = "wss://api.bitfinex.com/ws/"
+const val BITFINEX_WEB_SOCKET_HEARTBEAT = "hb"

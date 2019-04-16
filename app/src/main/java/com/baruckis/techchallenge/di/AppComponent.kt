@@ -14,18 +14,32 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.di
 
-import androidx.lifecycle.ViewModel
-import com.baruckis.techchallenge.repository.SummaryRepository
-import javax.inject.Inject
+import com.baruckis.techchallenge.App
+import dagger.BindsInstance
+import dagger.Component
+import dagger.android.support.AndroidSupportInjectionModule
+import javax.inject.Singleton
 
+@Singleton
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        ActivityBuildersModule::class
+    ]
+)
+interface AppComponent {
 
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository) : ViewModel() {
+    @Component.Builder
+    interface Builder {
 
-    fun subscribe() {
+        @BindsInstance
+        fun application(application: App): Builder
 
-        summaryRepository.sendSubscribe()
+        fun build(): AppComponent
     }
 
+    fun inject(app: App)
 }
