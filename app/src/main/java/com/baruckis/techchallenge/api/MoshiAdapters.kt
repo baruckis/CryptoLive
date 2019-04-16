@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.api
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baruckis.techchallenge.R
+import com.baruckis.techchallenge.api.model.Subscribe
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.ToJson
 
-class MainActivity : AppCompatActivity() {
+class MoshiAdapters {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    @FromJson
+    fun subscribeTypeFromJson(string: String): Subscribe.Type {
+        return Subscribe.Type.values().find { it.text == string }!!
+    }
 
+    @ToJson
+    fun subscribeTypeToJson(data: Subscribe.Type): String {
+        return data.text
     }
 
 }

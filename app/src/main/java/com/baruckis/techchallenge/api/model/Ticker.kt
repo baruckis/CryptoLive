@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.api.model
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baruckis.techchallenge.R
-
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-    }
-
-}
+data class Ticker(
+    val channelID: Int,
+    val bid: Float,
+    val bid_size: Float,
+    val ask: Float,
+    val ask_size: Float,
+    val daily_change: Float,
+    val daily_change_perc: Float,
+    val last_price: Float,
+    val volume: Float,
+    val high: Float,
+    val low: Float
+)

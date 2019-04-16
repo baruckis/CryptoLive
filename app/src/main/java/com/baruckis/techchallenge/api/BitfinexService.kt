@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.api
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baruckis.techchallenge.R
+import com.baruckis.techchallenge.api.model.Subscribe
+import com.tinder.scarlet.websocket.WebSocketEvent
+import com.tinder.scarlet.ws.Receive
+import com.tinder.scarlet.ws.Send
+import io.reactivex.Flowable
 
-class MainActivity : AppCompatActivity() {
+interface BitfinexService {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+    @Receive
+    fun observeWebSocketEvent(): Flowable<WebSocketEvent>
 
-    }
+    @Send
+    fun sendSubscribe(subscribe: Subscribe)
+
+    @Receive
+    fun observeTicker(): Flowable<List<String>>
 
 }

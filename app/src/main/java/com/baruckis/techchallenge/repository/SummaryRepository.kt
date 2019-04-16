@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.repository
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baruckis.techchallenge.R
+import com.baruckis.techchallenge.api.BitfinexService
 
-class MainActivity : AppCompatActivity() {
+class SummaryRepository(private val bitfinexService: BitfinexService) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-    }
 
 }

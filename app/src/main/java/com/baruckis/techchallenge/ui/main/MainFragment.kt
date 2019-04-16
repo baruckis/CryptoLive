@@ -23,7 +23,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.baruckis.techchallenge.R
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
@@ -35,6 +37,21 @@ class MainFragment : Fragment() {
         val v: View = binding.root
 
         return v
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        activity?.let {
+
+            val viewModel = ViewModelProviders.of(it).get(MainViewModel::class.java)
+
+            my_button.setOnClickListener {
+
+                viewModel.subscribe()
+            }
+        }
+
     }
 
 

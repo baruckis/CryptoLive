@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.ui.main
+package com.baruckis.techchallenge.api.model
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.baruckis.techchallenge.R
+/*
+"event":"subscribe",
+"channel":"ticker",
+"pair":"BTCUSD"
+*/
 
-class MainActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
+data class Subscribe(
+    val event: Type,
+    val channel: String = "ticker",
+    val pair: String = "BTCUSD"
+) {
+    enum class Type(val text: String) {
+        SUBSCRIBE("subscribe"),
+        UNSUBSCRIBE("unsubscribe")
     }
-
 }
