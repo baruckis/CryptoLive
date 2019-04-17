@@ -20,8 +20,9 @@ import com.baruckis.techchallenge.vo.Channel
 import com.baruckis.techchallenge.vo.Event
 import com.baruckis.techchallenge.vo.Pair
 
-data class Subscribe(
-    val event: Event = Event.SUBSCRIBE,
+data class Subscribed(
+    val event: Event,
     val channel: Channel,
-    val pair: Pair = Pair.BTCUSD
+    val chanId: String,
+    val pair: Pair
 )

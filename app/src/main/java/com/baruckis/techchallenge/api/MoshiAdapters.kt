@@ -16,19 +16,44 @@
 
 package com.baruckis.techchallenge.api
 
-import com.baruckis.techchallenge.api.model.Subscribe
+import com.baruckis.techchallenge.vo.Channel
+import com.baruckis.techchallenge.vo.Event
+import com.baruckis.techchallenge.vo.Pair
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
+
 
 class MoshiAdapters {
 
     @FromJson
-    fun subscribeTypeFromJson(string: String): Subscribe.Type {
-        return Subscribe.Type.values().find { it.text == string }!!
+    fun eventFromJson(string: String): Event {
+        return Event.values().find { it.text == string }!!
     }
 
     @ToJson
-    fun subscribeTypeToJson(data: Subscribe.Type): String {
+    fun eventToJson(data: Event): String {
+        return data.text
+    }
+
+
+    @FromJson
+    fun channelFromJson(string: String): Channel {
+        return Channel.values().find { it.text == string }!!
+    }
+
+    @ToJson
+    fun channelToJson(data: Channel): String {
+        return data.text
+    }
+
+
+    @FromJson
+    fun pairFromJson(string: String): Pair {
+        return Pair.values().find { it.text == string }!!
+    }
+
+    @ToJson
+    fun pairToJson(data: Pair): String {
         return data.text
     }
 

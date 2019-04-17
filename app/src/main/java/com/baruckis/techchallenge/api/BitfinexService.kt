@@ -17,6 +17,8 @@
 package com.baruckis.techchallenge.api
 
 import com.baruckis.techchallenge.api.model.Subscribe
+import com.baruckis.techchallenge.api.model.Subscribed
+import com.baruckis.techchallenge.api.model.Unsubscribe
 import com.tinder.scarlet.websocket.WebSocketEvent
 import com.tinder.scarlet.ws.Receive
 import com.tinder.scarlet.ws.Send
@@ -30,7 +32,16 @@ interface BitfinexService {
     @Send
     fun sendSubscribe(subscribe: Subscribe)
 
+    @Send
+    fun sendUnsubscribe(unsubscribe: Unsubscribe)
+
+    @Receive
+    fun receiveSubscribed(): Flowable<Subscribed>
+
     @Receive
     fun observeTicker(): Flowable<List<String>>
+
+    @Receive
+    fun observeOrderBooks(): Flowable<List<String>>
 
 }

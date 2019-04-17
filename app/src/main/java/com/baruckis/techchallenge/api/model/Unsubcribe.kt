@@ -16,12 +16,9 @@
 
 package com.baruckis.techchallenge.api.model
 
-import com.baruckis.techchallenge.vo.Channel
 import com.baruckis.techchallenge.vo.Event
-import com.baruckis.techchallenge.vo.Pair
 
-data class Subscribe(
-    val event: Event = Event.SUBSCRIBE,
-    val channel: Channel,
-    val pair: Pair = Pair.BTCUSD
+data class Unsubscribe(
+    val event: Event = Event.UNSUBSCRIBE,
+    val chanId: String
 )

@@ -21,9 +21,10 @@
         tools:context=".ui.main.MainFragment"
         tools:showIn="@layout/activity_main">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -35,14 +36,33 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
         <Button
-                android:id="@+id/my_button"
-                android:text="Subscribe"
+                android:id="@+id/subscribe_ticker"
+                android:text="Subscribe Ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+                android:id="@+id/unsubscribe_ticker"
+                android:text="Unsubscribe Ticker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+        <Button
+                android:id="@+id/subscribe_order_books"
+                android:text="Subscribe Order Books"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+        <Button
+                android:id="@+id/unsubscribe_order_books"
+                android:text="Unsubscribe Order Books"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+        />
+
+    </LinearLayout>
 
 </layout>

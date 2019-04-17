@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.api.model
+package com.baruckis.techchallenge.vo
 
-import com.baruckis.techchallenge.vo.Channel
-import com.baruckis.techchallenge.vo.Event
-import com.baruckis.techchallenge.vo.Pair
-
-data class Subscribe(
-    val event: Event = Event.SUBSCRIBE,
-    val channel: Channel,
-    val pair: Pair = Pair.BTCUSD
-)
+enum class Pair(val text: String) {
+    BTCUSD("BTCUSD")
+}

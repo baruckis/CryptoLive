@@ -54,9 +54,24 @@ class MainFragment : Fragment(), Injectable {
 
             val viewModel = ViewModelProviders.of(it, viewModelFactory).get(MainViewModel::class.java)
 
-            my_button.setOnClickListener {
+            subscribe_ticker.setOnClickListener {
 
-                viewModel.subscribe()
+                viewModel.subscribeTicker()
+            }
+
+            unsubscribe_ticker.setOnClickListener {
+
+                viewModel.unsubscribeTicker()
+            }
+
+            subscribe_order_books.setOnClickListener {
+
+                viewModel.subscribeOrderBooks()
+            }
+
+            unsubscribe_order_books.setOnClickListener {
+
+                viewModel.unsubscribeOrderBooks()
             }
         }
 

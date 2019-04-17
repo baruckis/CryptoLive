@@ -18,8 +18,8 @@ package com.baruckis.techchallenge.repository
 
 import android.util.Log
 import com.baruckis.techchallenge.api.BitfinexService
+import com.baruckis.techchallenge.api.model.OrderBook
 import com.baruckis.techchallenge.api.model.Subscribe
-import com.baruckis.techchallenge.api.model.Ticker
 import com.baruckis.techchallenge.api.model.Unsubscribe
 import com.baruckis.techchallenge.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
 import com.baruckis.techchallenge.utils.LOG_TAG
@@ -28,25 +28,25 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SummaryRepository @Inject constructor(private val bitfinexService: BitfinexService) {
+class OrderBooksRepository @Inject constructor(private val bitfinexService: BitfinexService) {
 
     var channelId: String = ""
 
     init {
 
         bitfinexService.receiveSubscribed()
-            .filter { it.channel == Channel.TICKER }
+            .filter { it.channel == Channel.BOOK }
             .subscribe {
                 channelId = it.chanId
-                observeTicker(it.chanId)
-                Log.d(LOG_TAG, "Subscribed ticker - $it")
+                observeOrderBooks(it.chanId)
+                Log.d(LOG_TAG, "Subscribed order books - $it")
             }
     }
 
     fun sendSubscribe() {
 
         val subscribe = Subscribe(
-            channel = Channel.TICKER
+            channel = Channel.BOOK
         )
 
         bitfinexService.sendSubscribe(subscribe)
@@ -62,27 +62,20 @@ class SummaryRepository @Inject constructor(private val bitfinexService: Bitfine
     }
 
 
-    private fun observeTicker(channelId: String?) {
-        bitfinexService.observeTicker()
+    private fun observeOrderBooks(channelId: String) {
+        bitfinexService.observeOrderBooks()
             .filter { it.first() == channelId && it.last() != BITFINEX_WEB_SOCKET_HEARTBEAT }
             .map { response ->
-                val ticker = Ticker(
+                val orderBook = OrderBook(
                     channelID = response[0].toInt(),
-                    bid = response[1].toFloat(),
-                    bid_size = response[2].toFloat(),
-                    ask = response[3].toFloat(),
-                    ask_size = response[4].toFloat(),
-                    daily_change = response[5].toFloat(),
-                    daily_change_perc = response[6].toFloat(),
-                    last_price = response[7].toFloat(),
-                    volume = response[8].toFloat(),
-                    high = response[9].toFloat(),
-                    low = response[10].toFloat()
+                    price = response[1].toFloat(),
+                    count = response[2].toFloat(),
+                    amount = response[3].toFloat()
                 )
-                ticker
+                orderBook
             }
-            .subscribe { ticker: Ticker ->
-                Log.d(LOG_TAG, "\uD83D\uDC4D Ticker - " + ticker.channelID + " " + ticker.bid.toString())
+            .subscribe { orderBook: OrderBook ->
+                Log.d(LOG_TAG, "Order Books - " + orderBook.channelID + " " + orderBook.price)
             }
     }
 

@@ -17,15 +17,27 @@
 package com.baruckis.techchallenge.ui.main
 
 import androidx.lifecycle.ViewModel
+import com.baruckis.techchallenge.repository.OrderBooksRepository
 import com.baruckis.techchallenge.repository.SummaryRepository
 import javax.inject.Inject
 
 
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository, private val orderBooksRepository: OrderBooksRepository) : ViewModel() {
 
-    fun subscribe() {
-
+    fun subscribeTicker() {
         summaryRepository.sendSubscribe()
+    }
+
+    fun unsubscribeTicker() {
+        summaryRepository.sendUnsubscribe()
+    }
+
+    fun subscribeOrderBooks() {
+        orderBooksRepository.sendSubscribe()
+    }
+
+    fun unsubscribeOrderBooks() {
+        orderBooksRepository.sendUnsubscribe()
     }
 
 }

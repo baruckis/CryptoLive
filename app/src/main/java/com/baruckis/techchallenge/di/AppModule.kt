@@ -17,11 +17,13 @@
 package com.baruckis.techchallenge.di
 
 import android.content.Context
+import android.util.Log
 import com.baruckis.techchallenge.App
 import com.baruckis.techchallenge.BuildConfig
 import com.baruckis.techchallenge.api.BitfinexService
 import com.baruckis.techchallenge.api.MoshiAdapters
 import com.baruckis.techchallenge.utils.BITFINEX_WEB_SOCKET_URL
+import com.baruckis.techchallenge.utils.LOG_TAG
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.tinder.scarlet.Lifecycle
@@ -30,6 +32,7 @@ import com.tinder.scarlet.lifecycle.android.AndroidLifecycle
 import com.tinder.scarlet.messageadapter.moshi.MoshiMessageAdapter
 import com.tinder.scarlet.streamadapter.rxjava2.RxJava2StreamAdapterFactory
 import com.tinder.scarlet.websocket.ShutdownReason
+import com.tinder.scarlet.websocket.WebSocketEvent
 import com.tinder.scarlet.websocket.okhttp.OkHttpWebSocket
 import dagger.Module
 import dagger.Provides
@@ -62,6 +65,8 @@ class AppModule() {
     @Singleton
     fun provideBitfinexService(app: App, okHttpClient: OkHttpClient): BitfinexService {
 
+        val bitfinexService: BitfinexService
+
         val foreground: Lifecycle = AndroidLifecycle.ofApplicationForeground(app)
 
         val moshi: Moshi = Moshi.Builder()
@@ -85,7 +90,16 @@ class AppModule() {
 
         val scarletInstance = Scarlet(protocol, configuration)
 
-        return scarletInstance.create()
+        bitfinexService = scarletInstance.create()
+
+        bitfinexService.observeWebSocketEvent()
+            .filter { it is WebSocketEvent.OnMessageReceived }
+            .subscribe {
+                val msg = (it as WebSocketEvent.OnMessageReceived).message
+                Log.d(LOG_TAG, "WebSocket message - ${msg.toString()}")
+            }
+
+        return bitfinexService
     }
 
 }
