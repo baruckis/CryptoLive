@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.api.model
+package com.baruckis.techchallenge.data
 
-data class OrderBook(
-    val channelID: Int,
-    val price: Double,
-    val count: Double,
-    val amount: Double
+data class Summary(
+    val price:String,
+    val volume:String,
+    val low:String,
+    val high:String
 )

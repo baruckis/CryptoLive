@@ -14,11 +14,15 @@
  * limitations under the License.
  */
 
-package com.baruckis.techchallenge.api.model
+package com.baruckis.techchallenge.data
 
-data class OrderBook(
-    val channelID: Int,
-    val price: Double,
-    val count: Double,
-    val amount: Double
-)
+data class Book(
+        val price: String,
+        val amount: String,
+        val type: Type
+) {
+    enum class Type(val text: String) {
+        BID("bid"),
+        ASK("ask")
+    }
+}

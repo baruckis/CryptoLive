@@ -21,3 +21,5 @@ const val LOG_TICKER = "_ticker"
 const val LOG_BOOK = "_book"
 const val BITFINEX_WEB_SOCKET_URL = "wss://api.bitfinex.com/ws/"
 const val BITFINEX_WEB_SOCKET_HEARTBEAT = "hb"
+
+const val BOOK_ROWS = 15

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 Andrius Baruckis www.baruckis.com
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,53 +15,138 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context=".ui.main.MainFragment"
-        tools:showIn="@layout/activity_main">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.MainFragment"
+    tools:showIn="@layout/activity_main">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_half"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <LinearLayout
+            android:id="@+id/buttons"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hello World!"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-        <Button
+            <Button
                 android:id="@+id/subscribe_ticker"
-                android:text="Subscribe Ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        />
+                android:text="Sub T" />
 
-        <Button
+            <Button
                 android:id="@+id/unsubscribe_ticker"
-                android:text="Unsubscribe Ticker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        />
+                android:text="Uns T" />
 
-        <Button
+            <Button
                 android:id="@+id/subscribe_order_books"
-                android:text="Subscribe Order Books"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        />
+                android:text="Sub O B" />
 
-        <Button
+            <Button
                 android:id="@+id/unsubscribe_order_books"
-                android:text="Unsubscribe Order Books"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        />
+                android:text="Uns O B" />
 
-    </LinearLayout>
+        </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/bid_table"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:stretchColumns="*"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_half"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttons">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/TextView01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#dcdcdc"
+                    android:gravity="center"
+                    android:text="1"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/TextView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#d3d3d3"
+                    android:gravity="center"
+                    android:text="2"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/ask_table"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_half"
+            app:layout_constraintTop_toBottomOf="@id/buttons">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/TextView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#cac9c9"
+                    android:gravity="center"
+                    android:text="3"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/TextView04"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#a09f9f"
+
+                    android:gravity="center"
+                    android:text="4"
+                    android:textColor="#000000" />
+
+            </TableRow>
+
+        </TableLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

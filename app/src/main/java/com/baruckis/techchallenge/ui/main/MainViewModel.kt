@@ -16,6 +16,7 @@
 
 package com.baruckis.techchallenge.ui.main
 
+import androidx.lifecycle.LiveDataReactiveStreams
 import androidx.lifecycle.ViewModel
 import com.baruckis.techchallenge.repository.OrderBooksRepository
 import com.baruckis.techchallenge.repository.SummaryRepository
@@ -23,6 +24,18 @@ import javax.inject.Inject
 
 
 class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository, private val orderBooksRepository: OrderBooksRepository) : ViewModel() {
+
+    val summary = LiveDataReactiveStreams.fromPublisher(
+
+            summaryRepository.observeSummary()
+    )
+
+    val books = LiveDataReactiveStreams.fromPublisher(
+
+            orderBooksRepository.observeBooks()/*.throttleLast(UPDATE_INTERVAL_SECONDS, TimeUnit.SECONDS)*/
+
+    )
+
 
     fun subscribeTicker() {
         summaryRepository.sendSubscribe()
@@ -38,6 +51,10 @@ class MainViewModel @Inject constructor(private val summaryRepository: SummaryRe
 
     fun unsubscribeOrderBooks() {
         orderBooksRepository.sendUnsubscribe()
+    }
+
+    private companion object {
+        private const val UPDATE_INTERVAL_SECONDS = 1L
     }
 
 }

@@ -21,26 +21,41 @@ import com.baruckis.techchallenge.api.BitfinexService
 import com.baruckis.techchallenge.api.model.Subscribe
 import com.baruckis.techchallenge.api.model.Ticker
 import com.baruckis.techchallenge.api.model.Unsubscribe
+import com.baruckis.techchallenge.data.Summary
 import com.baruckis.techchallenge.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
 import com.baruckis.techchallenge.utils.LOG_TAG
 import com.baruckis.techchallenge.vo.Channel
+import com.tinder.scarlet.websocket.WebSocketEvent
+import io.reactivex.Flowable
+import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SummaryRepository @Inject constructor(private val bitfinexService: BitfinexService) {
 
+    var summaryProcessor = BehaviorProcessor.create<Summary>()
+
     var channelId: String = ""
 
     init {
+
+        bitfinexService.observeWebSocketEvent()
+            .filter { it is WebSocketEvent.OnConnectionOpened }
+            .subscribe {
+                //sendSubscribe()
+            }
+
 
         bitfinexService.receiveSubscribed()
             .filter { it.channel == Channel.TICKER }
             .subscribe {
                 channelId = it.chanId
-                observeTicker(it.chanId)
+                //observeTicker(it.chanId)
                 Log.d(LOG_TAG, "Subscribed ticker - $it")
             }
+
+        observeTicker()
     }
 
     fun sendSubscribe() {
@@ -62,28 +77,41 @@ class SummaryRepository @Inject constructor(private val bitfinexService: Bitfine
     }
 
 
-    private fun observeTicker(channelId: String?) {
+    private fun observeTicker(/*channelId: String?*/) {
         bitfinexService.observeTicker()
-            .filter { it.first() == channelId && it.last() != BITFINEX_WEB_SOCKET_HEARTBEAT }
+            .filter { it.size == 11 && it.last() != BITFINEX_WEB_SOCKET_HEARTBEAT }
             .map { response ->
                 val ticker = Ticker(
                     channelID = response[0].toInt(),
-                    bid = response[1].toFloat(),
-                    bid_size = response[2].toFloat(),
-                    ask = response[3].toFloat(),
-                    ask_size = response[4].toFloat(),
-                    daily_change = response[5].toFloat(),
-                    daily_change_perc = response[6].toFloat(),
-                    last_price = response[7].toFloat(),
-                    volume = response[8].toFloat(),
-                    high = response[9].toFloat(),
-                    low = response[10].toFloat()
+                    bid = response[1].toDouble(),
+                    bid_size = response[2].toDouble(),
+                    ask = response[3].toDouble(),
+                    ask_size = response[4].toDouble(),
+                    daily_change = response[5].toDouble(),
+                    daily_change_perc = response[6].toDouble(),
+                    last_price = response[7].toDouble(),
+                    volume = response[8].toDouble(),
+                    high = response[9].toDouble(),
+                    low = response[10].toDouble()
                 )
                 ticker
             }
             .subscribe { ticker: Ticker ->
                 Log.d(LOG_TAG, "\uD83D\uDC4D Ticker - " + ticker.channelID + " " + ticker.bid.toString())
+
+                val summary = Summary(
+                    price = ticker.last_price.toString(),
+                    volume = ticker.volume.toString(),
+                    low = ticker.low.toString(),
+                    high = ticker.high.toString())
+
+                summaryProcessor.onNext(summary)
             }
+
+    }
+
+    fun observeSummary(): Flowable<Summary> {
+        return summaryProcessor
     }
 
 }

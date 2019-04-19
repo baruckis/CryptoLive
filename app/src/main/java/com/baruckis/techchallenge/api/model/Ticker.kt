@@ -18,14 +18,14 @@ package com.baruckis.techchallenge.api.model
 
 data class Ticker(
     val channelID: Int,
-    val bid: Float,
-    val bid_size: Float,
-    val ask: Float,
-    val ask_size: Float,
-    val daily_change: Float,
-    val daily_change_perc: Float,
-    val last_price: Float,
-    val volume: Float,
-    val high: Float,
-    val low: Float
+    val bid: Double,
+    val bid_size: Double,
+    val ask: Double,
+    val ask_size: Double,
+    val daily_change: Double,
+    val daily_change_perc: Double,
+    val last_price: Double,
+    val volume: Double,
+    val high: Double,
+    val low: Double
 )

@@ -21,14 +21,20 @@ import com.baruckis.techchallenge.api.BitfinexService
 import com.baruckis.techchallenge.api.model.OrderBook
 import com.baruckis.techchallenge.api.model.Subscribe
 import com.baruckis.techchallenge.api.model.Unsubscribe
+import com.baruckis.techchallenge.data.Book
 import com.baruckis.techchallenge.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
 import com.baruckis.techchallenge.utils.LOG_TAG
 import com.baruckis.techchallenge.vo.Channel
+import io.reactivex.Flowable
+import io.reactivex.processors.BehaviorProcessor
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.absoluteValue
 
 @Singleton
 class OrderBooksRepository @Inject constructor(private val bitfinexService: BitfinexService) {
+
+    var bookProcessor = BehaviorProcessor.create<Book>()
 
     var channelId: String = ""
 
@@ -68,15 +74,28 @@ class OrderBooksRepository @Inject constructor(private val bitfinexService: Bitf
             .map { response ->
                 val orderBook = OrderBook(
                     channelID = response[0].toInt(),
-                    price = response[1].toFloat(),
-                    count = response[2].toFloat(),
-                    amount = response[3].toFloat()
+                    price = response[1].toDouble(),
+                    count = response[2].toDouble(),
+                    amount = response[3].toDouble()
                 )
                 orderBook
             }
             .subscribe { orderBook: OrderBook ->
-                Log.d(LOG_TAG, "Order Books - " + orderBook.channelID + " " + orderBook.price)
+                Log.d(LOG_TAG, "Order book - " + orderBook.channelID + " " + orderBook.price)
+
+                val book = Book(
+                        price = orderBook.price.toString(),
+                        amount = orderBook.amount.absoluteValue.toString(),
+                        type = if (orderBook.amount > 0) Book.Type.BID else Book.Type.ASK
+                )
+
+                bookProcessor.onNext(book)
             }
+    }
+
+
+    fun observeBooks(): Flowable<Book> {
+        return bookProcessor
     }
 
 }
