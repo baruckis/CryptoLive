@@ -15,5 +15,25 @@
   -->
 
 <resources>
-    <string name="app_name">Tech Challenge</string>
+    <string name="app_name">"CryptoLive"</string>
+    <string name="app_subtitle">"BTC/USD"</string>
+
+    <string name="ticker_title">"👓 Ticker"</string>
+    <string name="order_books_title">"📚 Order Books"</string>
+
+    <string name="ticker_price">"Price: "</string>
+    <string name="ticker_volume">"Volume: "</string>
+    <string name="ticker_low">"Low: "</string>
+    <string name="ticker_high">"High: "</string>
+
+    <string name="tools_ticker_price">"Price: 5125.13726932"</string>
+    <string name="tools_ticker_volume">"Volume: 7704.0071242300000006"</string>
+    <string name="tools_ticker_low">"Low: 5049.30627064"</string>
+    <string name="tools_ticker_high">"High: 5163.0"</string>
+
+    <string name="table_title_bid_amount">"Bid amount"</string>
+    <string name="table_title_bid_price">"Bid price"</string>
+    <string name="table_title_ask_price">"Ask price"</string>
+    <string name="table_title_ask_amount">"Ask amount"</string>
+
 </resources>

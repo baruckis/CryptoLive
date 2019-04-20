@@ -16,17 +16,14 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
 
-    <color name="colorBid">@android:color/holo_green_dark</color>
-    <color name="colorAsk">@android:color/holo_red_dark</color>
+    <dimen name="padding_default_05x">4dp</dimen>
+    <dimen name="padding_default">8dp</dimen>
+    <dimen name="padding_default_2x">16dp</dimen>
 
-    <color name="color_table_title_background_bid_price">@color/colorBid</color>
-    <color name="color_table_title_background_ask_price">@color/colorAsk</color>
-    <color name="color_table_title_background_bid_amount">#696969</color>
-    <color name="color_table_title_background_ask_amount">#696969</color>
-    <color name="color_table_title_text">@android:color/white</color>
+    <dimen name="margin_default">8dp</dimen>
+    <dimen name="margin_default_2x">16dp</dimen>
+
+    <dimen name="text_book">11sp</dimen>
 
 </resources>

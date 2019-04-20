@@ -23,7 +23,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/padding_default"
+        android:layout_marginEnd="@dimen/padding_default">
+
+        <TextView
+            android:id="@+id/order_books_title"
+            style="@style/AppTheme.TitleTextView"
+            android:text="@string/order_books_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline_half"
@@ -32,14 +42,74 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.50" />
 
+        <TableLayout
+            android:id="@+id/bid_table"
+            style="@style/AppTheme.TableLayout"
+            android:layout_marginStart="@dimen/padding_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_half"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/order_books_title">
+
+            <TableRow style="@style/AppTheme.TableRow">
+
+                <TextView
+                    style="@style/AppTheme.TableTitleTextView"
+                    android:layout_weight="0.6"
+                    android:background="@color/color_table_title_background_bid_amount"
+                    android:gravity="start"
+                    android:text="@string/table_title_bid_amount" />
+
+                <TextView
+                    style="@style/AppTheme.TableTitleTextView"
+                    android:layout_weight="0.4"
+                    android:background="@color/color_table_title_background_bid_price"
+                    android:gravity="center"
+                    android:text="@string/table_title_bid_price" />
+
+            </TableRow>
+
+        </TableLayout>
+
+        <TableLayout
+            android:id="@+id/ask_table"
+            style="@style/AppTheme.TableLayout"
+            android:layout_marginEnd="@dimen/padding_default"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline_half"
+            app:layout_constraintTop_toBottomOf="@id/order_books_title">
+
+            <TableRow style="@style/AppTheme.TableRow">
+
+                <TextView
+                    style="@style/AppTheme.TableTitleTextView"
+                    android:layout_weight="0.4"
+                    android:background="@color/color_table_title_background_ask_price"
+                    android:gravity="center"
+                    android:text="@string/table_title_ask_price" />
+
+                <TextView
+                    style="@style/AppTheme.TableTitleTextView"
+                    android:layout_weight="0.6"
+                    android:background="@color/color_table_title_background_ask_amount"
+                    android:gravity="end"
+                    android:text="@string/table_title_ask_amount" />
+
+            </TableRow>
+
+        </TableLayout>
+
+
         <LinearLayout
             android:id="@+id/buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
                 android:id="@+id/subscribe_ticker"
@@ -66,85 +136,6 @@
                 android:text="Uns O B" />
 
         </LinearLayout>
-
-        <TableLayout
-            android:id="@+id/bid_table"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:stretchColumns="*"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/guideline_half"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/buttons">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/TextView01"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#dcdcdc"
-                    android:gravity="center"
-                    android:text="1"
-                    android:textColor="#000000" />
-
-                <TextView
-                    android:id="@+id/TextView02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#d3d3d3"
-                    android:gravity="center"
-                    android:text="2"
-                    android:textColor="#000000" />
-
-            </TableRow>
-
-        </TableLayout>
-
-        <TableLayout
-            android:id="@+id/ask_table"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline_half"
-            app:layout_constraintTop_toBottomOf="@id/buttons">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/TextView03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#cac9c9"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textColor="#000000" />
-
-                <TextView
-                    android:id="@+id/TextView04"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#a09f9f"
-
-                    android:gravity="center"
-                    android:text="4"
-                    android:textColor="#000000" />
-
-            </TableRow>
-
-        </TableLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,77 +20,98 @@
     tools:context=".ui.main.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.15" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline_end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.85" />
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/padding_default">
 
         <TextView
-            android:id="@+id/price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Price"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
+            android:id="@+id/ticker_title"
+            style="@style/AppTheme.TitleTextView"
+            android:text="@string/ticker_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/volume"
-            android:layout_width="0dp"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            style="@style/AppTheme.CardStyle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Volume"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ticker_title">
 
-        <TextView
-            android:id="@+id/low"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Low"
-            app:layout_constraintEnd_toStartOf="@id/high"
-            app:layout_constraintStart_toStartOf="@id/guideline_start"
-            app:layout_constraintTop_toBottomOf="@+id/volume" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_default"
+                android:layout_marginBottom="@dimen/margin_default"
+                android:padding="@dimen/padding_default">
 
-        <TextView
-            android:id="@+id/high"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="High"
-            app:layout_constraintBaseline_toBaselineOf="@id/low"
-            app:layout_constraintEnd_toStartOf="@id/guideline_end"
-            app:layout_constraintStart_toEndOf="@+id/low" />
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.10" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.90" />
+
+                <TextView
+                    android:id="@+id/price"
+                    style="@style/AppTheme.TickerTextView"
+                    android:text="@string/ticker_price"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/tools_ticker_price" />
+
+                <TextView
+                    android:id="@+id/volume"
+                    style="@style/AppTheme.TickerTextView"
+                    android:text="@string/ticker_volume"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/price"
+                    tools:text="@string/tools_ticker_volume" />
+
+                <TextView
+                    android:id="@+id/low"
+                    style="@style/AppTheme.TickerTextView"
+                    android:text="@string/ticker_low"
+                    app:layout_constraintEnd_toStartOf="@id/high"
+                    app:layout_constraintStart_toStartOf="@id/guideline_start"
+                    app:layout_constraintTop_toBottomOf="@+id/volume"
+                    tools:text="@string/tools_ticker_low" />
+
+                <TextView
+                    android:id="@+id/high"
+                    style="@style/AppTheme.TickerTextView"
+                    android:text="@string/ticker_high"
+                    app:layout_constraintBaseline_toBaselineOf="@id/low"
+                    app:layout_constraintEnd_toStartOf="@id/guideline_end"
+                    app:layout_constraintStart_toEndOf="@+id/low"
+                    tools:text="@string/tools_ticker_high" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <Space
             android:id="@+id/spacer"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
-            app:layout_constraintTop_toBottomOf="@id/low" />
+            android:layout_height="@dimen/padding_default"
+            app:layout_constraintTop_toBottomOf="@id/cardview" />
 
         <fragment
             android:id="@+id/fragment"
-            android:name="com.baruckis.techchallenge.ui.main.MainFragment"
+            android:name="com.baruckis.cryptolive.ui.main.MainFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
