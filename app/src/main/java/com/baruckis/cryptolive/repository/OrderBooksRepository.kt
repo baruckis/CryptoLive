@@ -19,6 +19,7 @@ package com.baruckis.cryptolive.repository
 import com.baruckis.cryptolive.api.BitfinexService
 import com.baruckis.cryptolive.api.model.OrderBook
 import com.baruckis.cryptolive.data.Book
+import com.baruckis.cryptolive.testing.OpenForTesting
 import com.baruckis.cryptolive.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
 import com.baruckis.cryptolive.utils.logConsoleVerbose
 import com.baruckis.cryptolive.vo.Channel
@@ -29,6 +30,7 @@ import kotlin.math.absoluteValue
 
 
 @Singleton
+@OpenForTesting
 class OrderBooksRepository @Inject constructor(private val bitfinexService: BitfinexService) :
     RepoBase<Book>(bitfinexService, Channel.BOOK) {
 

@@ -19,6 +19,7 @@ package com.baruckis.cryptolive.repository
 import com.baruckis.cryptolive.api.BitfinexService
 import com.baruckis.cryptolive.api.model.Ticker
 import com.baruckis.cryptolive.data.Summary
+import com.baruckis.cryptolive.testing.OpenForTesting
 import com.baruckis.cryptolive.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
 import com.baruckis.cryptolive.utils.logConsoleVerbose
 import com.baruckis.cryptolive.vo.Channel
@@ -28,6 +29,7 @@ import javax.inject.Singleton
 
 
 @Singleton
+@OpenForTesting
 class SummaryRepository @Inject constructor(private val bitfinexService: BitfinexService) :
     RepoBase<Summary>(bitfinexService, Channel.TICKER) {
 

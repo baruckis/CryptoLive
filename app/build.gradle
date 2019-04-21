@@ -18,9 +18,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-allopen'
 
 repositories {
     maven { url 'https://jitpack.io' }
+}
+
+allOpen {
+    // allows mocking for classes w/o directly opening them for release builds
+    annotation 'com.baruckis.cryptolive.testing.OpenClass'
 }
 
 android {
@@ -93,6 +99,10 @@ dependencies {
 
     // Testing
     testImplementation "junit:junit:$junit_version"
+    testImplementation "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
+    testImplementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+    testImplementation "android.arch.core:core-testing:$testing_version"
+
     androidTestImplementation "androidx.test:runner:$runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
 }

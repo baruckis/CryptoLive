@@ -32,12 +32,10 @@ class MainViewModel @Inject constructor(
     val askListData: ArrayList<Array<String>> = ArrayList()
 
     val summary = LiveDataReactiveStreams.fromPublisher(
-
         summaryRepository.observeData()
     )
 
     val books = LiveDataReactiveStreams.fromPublisher(
-
         orderBooksRepository.observeData()/*.throttleLast(UPDATE_INTERVAL_SECONDS, TimeUnit.SECONDS)*/
     )
 

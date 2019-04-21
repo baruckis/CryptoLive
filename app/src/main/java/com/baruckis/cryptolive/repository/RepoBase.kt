@@ -68,9 +68,10 @@ abstract class RepoBase<T> constructor(private val bitfinexService: BitfinexServ
         logConsoleVerbose("Unsubscribe from ${channel.text} with id $channelId.")
     }
 
-    fun observeData(): Flowable<T> {
+    open fun observeData(): Flowable<T> {
         return processor
     }
+
 
     fun clearDisposables() {
         disposables.clear()
