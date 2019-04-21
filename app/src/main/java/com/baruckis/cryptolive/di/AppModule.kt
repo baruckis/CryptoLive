@@ -16,14 +16,14 @@
 
 package com.baruckis.cryptolive.di
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import com.baruckis.cryptolive.App
 import com.baruckis.cryptolive.BuildConfig
 import com.baruckis.cryptolive.api.BitfinexService
 import com.baruckis.cryptolive.api.MoshiAdapters
 import com.baruckis.cryptolive.utils.BITFINEX_WEB_SOCKET_URL
-import com.baruckis.cryptolive.utils.LOG_TAG
+import com.baruckis.cryptolive.utils.logConsoleVerbose
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import com.tinder.scarlet.Lifecycle
@@ -61,6 +61,7 @@ class AppModule() {
         return builder.build()
     }
 
+    @SuppressLint("CheckResult")
     @Provides
     @Singleton
     fun provideBitfinexService(app: App, okHttpClient: OkHttpClient): BitfinexService {
@@ -96,7 +97,7 @@ class AppModule() {
             .filter { it is WebSocketEvent.OnMessageReceived }
             .subscribe {
                 val msg = (it as WebSocketEvent.OnMessageReceived).message
-                Log.d(LOG_TAG, "WebSocket message - ${msg.toString()}")
+                logConsoleVerbose("WebSocket message - $msg.")
             }
 
         return bitfinexService

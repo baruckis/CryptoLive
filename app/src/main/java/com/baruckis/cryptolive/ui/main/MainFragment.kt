@@ -18,7 +18,6 @@ package com.baruckis.cryptolive.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -39,7 +38,6 @@ import com.baruckis.cryptolive.data.Book
 import com.baruckis.cryptolive.databinding.FragmentMainBinding
 import com.baruckis.cryptolive.di.Injectable
 import com.baruckis.cryptolive.utils.BOOK_ROWS
-import com.baruckis.cryptolive.utils.LOG_TAG
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
@@ -50,14 +48,12 @@ class MainFragment : Fragment(), Injectable {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    lateinit var binding: FragmentMainBinding
+    lateinit var viewModel: MainViewModel
 
+    lateinit var binding: FragmentMainBinding
 
     private lateinit var bidListTextViews: List<Array<TextView>>
     private lateinit var askListTextViews: List<Array<TextView>>
-
-    private val bidListData: ArrayList<Array<String>> = ArrayList()
-    private val askListData: ArrayList<Array<String>> = ArrayList()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,12 +62,16 @@ class MainFragment : Fragment(), Injectable {
         val view: View = binding.root
 
         bidListTextViews =
-                createTable(view.bid_table, BOOK_ROWS, 0.6f, 0.4f,
-                        secondTextColorResourceId = R.color.colorBid)
+            createTable(
+                view.bid_table, BOOK_ROWS, 0.6f, 0.4f,
+                secondTextColorResourceId = R.color.colorBid
+            )
 
         askListTextViews =
-                createTable(view.ask_table, BOOK_ROWS, 0.4f, 0.6f,
-                        firstTextColorResourceId = R.color.colorAsk)
+            createTable(
+                view.ask_table, BOOK_ROWS, 0.4f, 0.6f,
+                firstTextColorResourceId = R.color.colorAsk
+            )
 
         return view
     }
@@ -81,32 +81,31 @@ class MainFragment : Fragment(), Injectable {
 
         activity?.let { it ->
 
-            val viewModel = ViewModelProviders.of(it, viewModelFactory).get(MainViewModel::class.java)
+            viewModel = ViewModelProviders.of(it, viewModelFactory).get(MainViewModel::class.java)
+
+            fillTextViewsWithData(bidListTextViews, viewModel.bidListData)
+            fillTextViewsWithData(askListTextViews, viewModel.askListData)
+
 
             subscribe_ticker.setOnClickListener {
-
                 viewModel.subscribeTicker()
             }
 
             unsubscribe_ticker.setOnClickListener {
-
                 viewModel.unsubscribeTicker()
             }
 
             subscribe_order_books.setOnClickListener {
-
                 viewModel.subscribeOrderBooks()
             }
 
             unsubscribe_order_books.setOnClickListener {
-
                 viewModel.unsubscribeOrderBooks()
             }
 
 
             viewModel.books.observe(this, Observer<Book> { data ->
                 data?.let {
-
                     onBookObserve(it)
                 }
             })
@@ -115,14 +114,14 @@ class MainFragment : Fragment(), Injectable {
 
     }
 
-
-    private fun createTable(tableLayout: TableLayout,
-                            rows: Int,
-                            firstTextWeight: Float,
-                            secondTextWeight: Float,
-                            @ColorRes firstTextColorResourceId: Int? = null,
-                            @ColorRes secondTextColorResourceId: Int? = null): List<Array<TextView>>
-    {
+    private fun createTable(
+        tableLayout: TableLayout,
+        rows: Int,
+        firstTextWeight: Float,
+        secondTextWeight: Float,
+        @ColorRes firstTextColorResourceId: Int? = null,
+        @ColorRes secondTextColorResourceId: Int? = null
+    ): List<Array<TextView>> {
 
         val list: ArrayList<Array<TextView>> = ArrayList()
 
@@ -130,23 +129,25 @@ class MainFragment : Fragment(), Injectable {
 
             val row = TableRow(tableLayout.context)
             row.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
             )
 
             val firstTextView: TextView =
-                    createTableTextView(
-                            tableLayout.context,
-                            Gravity.START,
-                            firstTextWeight,
-                            firstTextColorResourceId)
+                createTableTextView(
+                    tableLayout.context,
+                    Gravity.START,
+                    firstTextWeight,
+                    firstTextColorResourceId
+                )
 
             val secondTextView: TextView =
-                    createTableTextView(
-                            tableLayout.context,
-                            Gravity.END,
-                            secondTextWeight,
-                            secondTextColorResourceId)
+                createTableTextView(
+                    tableLayout.context,
+                    Gravity.END,
+                    secondTextWeight,
+                    secondTextColorResourceId
+                )
 
             list.add(arrayOf(firstTextView, secondTextView))
 
@@ -159,15 +160,17 @@ class MainFragment : Fragment(), Injectable {
         return list
     }
 
-    private fun createTableTextView(context: Context,
-                                    gravity: Int,
-                                    weight: Float,
-                                    @ColorRes colorResourceId: Int? = null,
-                                    text: String = ""): TextView {
+    private fun createTableTextView(
+        context: Context,
+        gravity: Int,
+        weight: Float,
+        @ColorRes colorResourceId: Int? = null,
+        text: String = ""
+    ): TextView {
 
         val lp: TableRow.LayoutParams = TableRow.LayoutParams(
-                TableRow.LayoutParams.WRAP_CONTENT,
-                TableRow.LayoutParams.WRAP_CONTENT, weight
+            TableRow.LayoutParams.WRAP_CONTENT,
+            TableRow.LayoutParams.WRAP_CONTENT, weight
         )
 
         val textView = TextView(context)
@@ -183,7 +186,7 @@ class MainFragment : Fragment(), Injectable {
         val textSize = resources.getDimension(R.dimen.text_book)
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
 
-        if (colorResourceId!=null)
+        if (colorResourceId != null)
             textView.setTextColor(ContextCompat.getColor(context, colorResourceId))
 
         return textView
@@ -192,34 +195,36 @@ class MainFragment : Fragment(), Injectable {
 
     private fun onBookObserve(book: Book) {
 
-        fun fillTextViewsWithData(texts: Array<String>,
-                     textViewsList: List<Array<TextView>>,
-                     dataList: ArrayList<Array<String>>,
-                     dataListSizeLimit: Int = BOOK_ROWS ) {
-
-            dataList.add(texts)
-            if (dataList.size > dataListSizeLimit) dataList.removeAt(0)
-            val reversedDataList = dataList.reversed()
-
-            for (i in 0 until reversedDataList.size) {
-                for (j in 0 until textViewsList[i].size) {
-                    textViewsList[i][j].text = reversedDataList[i][j]
-                }
-            }
-        }
-
         when (book.type) {
 
             Book.Type.BID -> {
-                fillTextViewsWithData(arrayOf(book.amount, book.price), bidListTextViews, bidListData)
+                fillTextViewsWithData(bidListTextViews, viewModel.bidListData, arrayOf(book.amount, book.price))
             }
 
             Book.Type.ASK -> {
-                fillTextViewsWithData(arrayOf(book.price, book.amount), askListTextViews, askListData)
+                fillTextViewsWithData(askListTextViews, viewModel.askListData, arrayOf(book.price, book.amount))
             }
-
         }
+    }
 
+    private fun fillTextViewsWithData(
+        textViewsList: List<Array<TextView>>,
+        dataList: ArrayList<Array<String>>,
+        newTexts: Array<String>? = null,
+        dataListSizeLimit: Int = BOOK_ROWS
+    ) {
+        if (newTexts != null) {
+            dataList.add(newTexts)
+            if (dataList.size > dataListSizeLimit) dataList.removeAt(0)
+        }
+        if (dataList.isEmpty()) return
+        val reversedDataList = dataList.reversed()
+
+        for (i in 0 until reversedDataList.size) {
+            for (j in 0 until textViewsList[i].size) {
+                textViewsList[i][j].text = reversedDataList[i][j]
+            }
+        }
     }
 
 }

@@ -17,8 +17,7 @@
 package com.baruckis.cryptolive.utils
 
 const val LOG_TAG = "tech_challenge"
-const val LOG_TICKER = "_ticker"
-const val LOG_BOOK = "_book"
+
 const val BITFINEX_WEB_SOCKET_URL = "wss://api.bitfinex.com/ws/"
 const val BITFINEX_WEB_SOCKET_HEARTBEAT = "hb"
 

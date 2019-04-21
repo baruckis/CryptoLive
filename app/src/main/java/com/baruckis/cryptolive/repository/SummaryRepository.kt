@@ -16,70 +16,32 @@
 
 package com.baruckis.cryptolive.repository
 
-import android.util.Log
 import com.baruckis.cryptolive.api.BitfinexService
-import com.baruckis.cryptolive.api.model.Subscribe
 import com.baruckis.cryptolive.api.model.Ticker
-import com.baruckis.cryptolive.api.model.Unsubscribe
 import com.baruckis.cryptolive.data.Summary
 import com.baruckis.cryptolive.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
-import com.baruckis.cryptolive.utils.LOG_TAG
+import com.baruckis.cryptolive.utils.logConsoleVerbose
 import com.baruckis.cryptolive.vo.Channel
-import com.tinder.scarlet.websocket.WebSocketEvent
-import io.reactivex.Flowable
-import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
 @Singleton
-class SummaryRepository @Inject constructor(private val bitfinexService: BitfinexService) {
-
-    var summaryProcessor = BehaviorProcessor.create<Summary>()
-
-    var channelId: String = ""
+class SummaryRepository @Inject constructor(private val bitfinexService: BitfinexService) :
+    RepoBase<Summary>(bitfinexService, Channel.TICKER) {
 
     init {
-
-        bitfinexService.observeWebSocketEvent()
-            .filter { it is WebSocketEvent.OnConnectionOpened }
-            .subscribe {
-                //sendSubscribe()
-            }
-
-
-        bitfinexService.receiveSubscribed()
-            .filter { it.channel == Channel.TICKER }
-            .subscribe {
-                channelId = it.chanId
-                //observeTicker(it.chanId)
-                Log.d(LOG_TAG, "Subscribed ticker - $it")
-            }
-
         observeTicker()
     }
 
-    fun sendSubscribe() {
-
-        val subscribe = Subscribe(
-            channel = Channel.TICKER
-        )
-
-        bitfinexService.sendSubscribe(subscribe)
+    override fun onReceiveSubscribed(channelId: String) {
+        // Do nothing.
     }
 
-    fun sendUnsubscribe() {
-
-        val unsubscribe = Unsubscribe(
-            chanId = channelId
-        )
-
-        bitfinexService.sendUnsubscribe(unsubscribe)
-    }
-
-
-    private fun observeTicker(/*channelId: String?*/) {
+    private fun observeTicker() {
         bitfinexService.observeTicker()
-            .filter { it.size == 11 && it.last() != BITFINEX_WEB_SOCKET_HEARTBEAT }
+            .filter { it.size == Ticker.FIELDS && it.last() != BITFINEX_WEB_SOCKET_HEARTBEAT }
             .map { response ->
                 val ticker = Ticker(
                     channelID = response[0].toInt(),
@@ -97,21 +59,17 @@ class SummaryRepository @Inject constructor(private val bitfinexService: Bitfine
                 ticker
             }
             .subscribe { ticker: Ticker ->
-                Log.d(LOG_TAG, "\uD83D\uDC53 Ticker - $ticker")
+                logConsoleVerbose("\uD83D\uDC53 Ticker - $ticker")
 
                 val summary = Summary(
                     price = ticker.last_price.toString(),
                     volume = ticker.volume.toString(),
                     low = ticker.low.toString(),
-                    high = ticker.high.toString())
+                    high = ticker.high.toString()
+                )
 
-                summaryProcessor.onNext(summary)
-            }
-
-    }
-
-    fun observeSummary(): Flowable<Summary> {
-        return summaryProcessor
+                processor.onNext(summary)
+            }.addTo(disposables)
     }
 
 }

@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package com.baruckis.cryptolive.api.model
+package com.baruckis.cryptolive.utils
 
+import android.util.Log
+import com.baruckis.cryptolive.BuildConfig
 
-data class Ticker(
-    val channelID: Int,
-    val bid: Double,
-    val bid_size: Double,
-    val ask: Double,
-    val ask_size: Double,
-    val daily_change: Double,
-    val daily_change_perc: Double,
-    val last_price: Double,
-    val volume: Double,
-    val high: Double,
-    val low: Double
-) {
-    companion object {
-        const val FIELDS = 11
+/**
+ * Debug console logger for verbose message.
+ *
+ * @param message
+ */
+fun logConsoleVerbose(message: String) {
+    if (BuildConfig.DEBUG) {
+        Log.v(LOG_TAG, message)
     }
 }

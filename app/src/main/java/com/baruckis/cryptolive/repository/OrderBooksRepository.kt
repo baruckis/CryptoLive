@@ -16,57 +16,26 @@
 
 package com.baruckis.cryptolive.repository
 
-import android.util.Log
 import com.baruckis.cryptolive.api.BitfinexService
 import com.baruckis.cryptolive.api.model.OrderBook
-import com.baruckis.cryptolive.api.model.Subscribe
-import com.baruckis.cryptolive.api.model.Unsubscribe
 import com.baruckis.cryptolive.data.Book
 import com.baruckis.cryptolive.utils.BITFINEX_WEB_SOCKET_HEARTBEAT
-import com.baruckis.cryptolive.utils.LOG_TAG
+import com.baruckis.cryptolive.utils.logConsoleVerbose
 import com.baruckis.cryptolive.vo.Channel
-import io.reactivex.Flowable
-import io.reactivex.processors.BehaviorProcessor
+import io.reactivex.rxkotlin.addTo
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.absoluteValue
 
+
 @Singleton
-class OrderBooksRepository @Inject constructor(private val bitfinexService: BitfinexService) {
+class OrderBooksRepository @Inject constructor(private val bitfinexService: BitfinexService) :
+    RepoBase<Book>(bitfinexService, Channel.BOOK) {
 
-    var bookProcessor = BehaviorProcessor.create<Book>()
 
-    var channelId: String = ""
-
-    init {
-
-        bitfinexService.receiveSubscribed()
-            .filter { it.channel == Channel.BOOK }
-            .subscribe {
-                channelId = it.chanId
-                observeOrderBooks(it.chanId)
-                Log.d(LOG_TAG, "Subscribed order books - $it")
-            }
+    override fun onReceiveSubscribed(channelId: String) {
+        observeOrderBooks(channelId)
     }
-
-    fun sendSubscribe() {
-
-        val subscribe = Subscribe(
-            channel = Channel.BOOK
-        )
-
-        bitfinexService.sendSubscribe(subscribe)
-    }
-
-    fun sendUnsubscribe() {
-
-        val unsubscribe = Unsubscribe(
-            chanId = channelId
-        )
-
-        bitfinexService.sendUnsubscribe(unsubscribe)
-    }
-
 
     private fun observeOrderBooks(channelId: String) {
         bitfinexService.observeOrderBooks()
@@ -81,21 +50,16 @@ class OrderBooksRepository @Inject constructor(private val bitfinexService: Bitf
                 orderBook
             }
             .subscribe { orderBook: OrderBook ->
-                Log.d(LOG_TAG, "\uD83D\uDCDA Order book - $orderBook")
+                logConsoleVerbose("\uD83D\uDCDA Order book - $orderBook")
 
                 val book = Book(
-                        price = orderBook.price.toString(),
-                        amount = orderBook.amount.absoluteValue.toString(),
-                        type = if (orderBook.amount > 0) Book.Type.BID else Book.Type.ASK
+                    price = orderBook.price.toString(),
+                    amount = orderBook.amount.absoluteValue.toString(),
+                    type = if (orderBook.amount > 0) Book.Type.BID else Book.Type.ASK
                 )
 
-                bookProcessor.onNext(book)
-            }
-    }
-
-
-    fun observeBooks(): Flowable<Book> {
-        return bookProcessor
+                processor.onNext(book)
+            }.addTo(disposables)
     }
 
 }

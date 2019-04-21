@@ -23,17 +23,22 @@ import com.baruckis.cryptolive.repository.SummaryRepository
 import javax.inject.Inject
 
 
-class MainViewModel @Inject constructor(private val summaryRepository: SummaryRepository, private val orderBooksRepository: OrderBooksRepository) : ViewModel() {
+class MainViewModel @Inject constructor(
+    private val summaryRepository: SummaryRepository,
+    private val orderBooksRepository: OrderBooksRepository
+) : ViewModel() {
+
+    val bidListData: ArrayList<Array<String>> = ArrayList()
+    val askListData: ArrayList<Array<String>> = ArrayList()
 
     val summary = LiveDataReactiveStreams.fromPublisher(
 
-            summaryRepository.observeSummary()
+        summaryRepository.observeData()
     )
 
     val books = LiveDataReactiveStreams.fromPublisher(
 
-            orderBooksRepository.observeBooks()/*.throttleLast(UPDATE_INTERVAL_SECONDS, TimeUnit.SECONDS)*/
-
+        orderBooksRepository.observeData()/*.throttleLast(UPDATE_INTERVAL_SECONDS, TimeUnit.SECONDS)*/
     )
 
 
