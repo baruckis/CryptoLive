@@ -23,9 +23,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/padding_default"
-        android:layout_marginEnd="@dimen/padding_default">
+        android:layout_marginEnd="@dimen/padding_default"
+        android:paddingBottom="@dimen/padding_default">
 
         <TextView
             android:id="@+id/order_books_title"
@@ -46,7 +47,6 @@
             android:id="@+id/bid_table"
             style="@style/AppTheme.TableLayout"
             android:layout_marginStart="@dimen/padding_default"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/guideline_half"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/order_books_title">
@@ -75,7 +75,6 @@
             android:id="@+id/ask_table"
             style="@style/AppTheme.TableLayout"
             android:layout_marginEnd="@dimen/padding_default"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/guideline_half"
             app:layout_constraintTop_toBottomOf="@id/order_books_title">
@@ -99,44 +98,6 @@
             </TableRow>
 
         </TableLayout>
-
-
-        <LinearLayout
-            android:id="@+id/buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <Button
-                android:id="@+id/subscribe_ticker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sub T" />
-
-            <Button
-                android:id="@+id/unsubscribe_ticker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Uns T" />
-
-            <Button
-                android:id="@+id/subscribe_order_books"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sub O B" />
-
-            <Button
-                android:id="@+id/unsubscribe_order_books"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Uns O B" />
-
-        </LinearLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

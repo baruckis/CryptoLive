@@ -38,7 +38,6 @@ import com.baruckis.cryptolive.data.Book
 import com.baruckis.cryptolive.databinding.FragmentMainBinding
 import com.baruckis.cryptolive.di.Injectable
 import com.baruckis.cryptolive.utils.BOOK_ROWS
-import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import javax.inject.Inject
 
@@ -85,23 +84,6 @@ class MainFragment : Fragment(), Injectable {
 
             fillTextViewsWithData(bidListTextViews, viewModel.bidListData)
             fillTextViewsWithData(askListTextViews, viewModel.askListData)
-
-
-            subscribe_ticker.setOnClickListener {
-                viewModel.subscribeTicker()
-            }
-
-            unsubscribe_ticker.setOnClickListener {
-                viewModel.unsubscribeTicker()
-            }
-
-            subscribe_order_books.setOnClickListener {
-                viewModel.subscribeOrderBooks()
-            }
-
-            unsubscribe_order_books.setOnClickListener {
-                viewModel.unsubscribeOrderBooks()
-            }
 
 
             viewModel.books.observe(this, Observer<Book> { data ->
